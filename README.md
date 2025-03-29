@@ -13,26 +13,23 @@ Això ocorre quan dades dolentes es fiquen en un sistema, com en una consulta a 
 
 #### 2. Copia cada una de les sentències SQL resultant que has realitzat a cada nivell i comenta que has aconseguit. Enumera i raona diferents formes que pot evitar un atac per SQL injection en projectes fets amb Razor Pages i Entity Framework. 
 
-''' sql
 SELECT username FROM users WHERE username ='jane';--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
-'''
-Això busca el número d'usuari "jane" en la taula "users". El "--" fa que tot el que ve després (la part del password) s'ignori, com un comentari. Al final, vaig aconseguir treure només el username de "jane" si existeix, sense que el password importo.
+- Això busca el número d'usuari "jane" en la taula "users". El "--" fa que tot el que ve després (la part del password) s'ignori, com un comentari. Al final, vaig aconseguir treure només el username de "jane" si existeix, sense que el password importo.
 
 SELECT username FROM users WHERE username =''; drop table users;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
-Aquí vaig intentar una mica més heavy. El "drop table users" després del ";" intenta esborrar la taula "users" sencera. Si el sistema no està protegit, vaig aconseguir eliminar totes les dades d'usuaris. El "--" altra vegada ignora això del password.
+- Aquí vaig intentar una mica més heavy. El "drop table users" després del ";" intenta esborrar la taula "users" sencera. Si el sistema no està protegit, vaig aconseguir eliminar totes les dades d'usuaris. El "--" altra vegada ignora això del password.
 
 SELECT username FROM users WHERE username =''; select username from users;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
-Això executa dues consultes. La primera no retorna nata (username buit), però la segona ("select username from users") saca tots els números d'usuari de la taula. Vaig aconseguir una llista completa d'usuaris, com per a iniciar sessió con qualsevol després
+- Això executa dues consultes. La primera no retorna nata (username buit), però la segona ("select username from users") saca tots els números d'usuari de la taula. Vaig aconseguir una llista completa d'usuaris, com per a iniciar sessió con qualsevol des- prés
 
 SELECT username FROM users WHERE username =''; Select username from users límite 1;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
-Semblança a l'anterior, però con "límit 1" en la segona consulta, només retorna un usuari. Sembla que algú va arreglar el sistema perquè no tregui tots els usuaris, així que vaig aconseguir només un username, suficient per a intentar entrar con aquest.
+- Semblança a l'anterior, però con "límit 1" en la segona consulta, només retorna un usuari. Sembla que algú va arreglar el sistema perquè no tregui tots els usuaris, així que vaig aconseguir només un username, suficient per a intentar entrar con aquest.
 
 SELECT product_*id, brand, size, price FROM shoes WHERE brand='';select username,password from users--';
-Això comença com una consulta normal de la taula "shoes", però després del ";"
-vaig ficar una segona consulta que saca números d'usuari i contrasenyes de la taula "users". Vaig aconseguir una llista de credencials completa, encara que la consulta inicial no retornés nada por el brand buit.
+- Això comença com una consulta normal de la taula "shoes", però després del ";" vaig ficar una segona consulta que saca números d'usuari i contrasenyes de la taula "users". Vaig aconseguir una llista de credencials completa, encara que la consulta inicial no retornés nada por el brand buit.
 
 SELECT username FROM users WHERE username =''; SELECT salary AS username FROM staff WHERE firstname='*Greta Maria'; AND password ='d41d8cd98f00b204e9800998ecf8427e';
-Aquí volia saber quant fam "Greta Maria" del personal. La segona consulta usa "AS username" per a canviar de nom la columna "salary" com "username". Si funciona, vaig aconseguir el salari de Greta Maria, encara que la primera consulta no faci nata útil. L'"AND password" no afecta perquè està després del ";".
+- Aquí volia saber quant fam "Greta Maria" del personal. La segona consulta usa "AS username" per a canviar de nom la columna "salary" com "username". Si funciona, vaig aconseguir el salari de Greta Maria, encara que la primera consulta no faci nata útil. L'"AND password" no afecta perquè està després del ";".
 
 #### 3. a. Definició del control d’accés: enumera els rols  i quin accés a dades tenen cada rol. 
 La meva definició del control d'accés
