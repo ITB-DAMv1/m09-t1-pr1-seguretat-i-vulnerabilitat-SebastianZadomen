@@ -17,7 +17,7 @@ SELECT username FROM users WHERE username ='jane';--' AND password ='d41d8cd98f0
 - Això busca el número d'usuari "jane" en la taula "users". El "--" fa que tot el que ve després (la part del password) s'ignori, com un comentari. Al final, vaig aconseguir treure només el username de "jane" si existeix, sense que el password importo.
 
 SELECT username FROM users WHERE username =''; drop table users;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
-- Aquí vaig intentar una mica més heavy. El "drop table users" després del ";" intenta esborrar la taula "users" sencera. Si el sistema no està protegit, vaig aconseguir eliminar totes les dades d'usuaris. El "--" altra vegada ignora això del password.
+- El "drop table users" després del ";" intenta esborrar la taula "users" sencera. Si el sistema no està protegit, vaig aconseguir eliminar totes les dades d'usuaris. El "--" altra vegada ignora això del password.
 
 SELECT username FROM users WHERE username =''; select username from users;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
 - Això executa dues consultes. La primera no retorna nata (username buit), però la segona ("select username from users") saca tots els números d'usuari de la taula. Vaig aconseguir una llista completa d'usuaris, com per a iniciar sessió con qualsevol des- prés
