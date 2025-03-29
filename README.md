@@ -13,8 +13,9 @@ Això ocorre quan dades dolentes es fiquen en un sistema, com en una consulta a 
 
 #### 2. Copia cada una de les sentències SQL resultant que has realitzat a cada nivell i comenta que has aconseguit. Enumera i raona diferents formes que pot evitar un atac per SQL injection en projectes fets amb Razor Pages i Entity Framework. 
 
-
+''' sql
 SELECT username FROM users WHERE username ='jane';--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
+'''
 Això busca el número d'usuari "jane" en la taula "users". El "--" fa que tot el que ve després (la part del password) s'ignori, com un comentari. Al final, vaig aconseguir treure només el username de "jane" si existeix, sense que el password importo.
 
 SELECT username FROM users WHERE username =''; drop table users;--' AND password ='d41d8cd98f00b204e9800998ecf8427e';
